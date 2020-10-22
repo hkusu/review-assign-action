@@ -1,0 +1,42 @@
+name: 'Review Assign Action'
+description: 'Set assignees and reviewers in pull requests and comment when ready for review.'
+author: 'Hiroyuki Kusu'
+branding:
+  icon: 'users'
+  color: 'white'
+inputs:
+  assignees:
+    description: 'Accounts to automatically set to assignees, eg `foo, bar`.'
+    required: false
+  exclude-assignees:
+    description: 'Accounts that does not automatically set to assignees, eg `foo bar`.'
+    required: false
+  reviewers:
+    description: 'Accounts to automatically set to reviewers, eg `foo, bar`.'
+    required: false
+  max-num-of-reviewers:
+    description: 'Reviewers are randomly selected below the specified number.'
+    required: false
+  draft-keyword:
+    description: 'A keyword in the pull request title to treat it like a GitHub standard draft pull requests, eg `wip`. Case insensitive.'
+    required: false
+  ready-comment:
+    description: 'Specified comment will be posted when the draft is released.'
+    required: false
+  merged-comment:
+    description: 'Specified comment will be posted when the pull request is merged.'
+    required: false
+  github-token:
+    description: 'Specify when overriding default GitHub token.'
+    default: ${{ github.token }}
+    required: false
+  event-json:
+    description: 'Specify when overriding GitHub events.'
+    default: ${{ toJson(github.event) }}
+    required: false
+outputs:
+  result:
+    description: '`success` or `failure` is set.'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

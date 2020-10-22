@@ -1,0 +1,40 @@
+name: Review Assign
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, edited, closed] # synchronize is specified for check
+
+jobs:
+  assign:
+    name: Use this action for check
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v1
+      - name: Use this action
+        uses: ./
+        id: assign
+        with:
+          assignees: ${{ github.actor }}
+          exclude-assignees: dependabot[bot]
+          #reviewers: foo, bar, baz
+          #max-num-of-reviewers: 2
+          draft-keyword: wip
+          ready-comment: 'Ready for Review :rocket: `<reviewers>`'
+      - name: Show result
+        if: always()
+        run: echo '${{ steps.assign.outputs.result }}'
+  assign-closed:
+    name: Use this action for check [closed]
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use this action
+        uses: hkusu/review-assign-action@master
+        id: assign
+        with:
+          merged-comment: 'Thanks for your review :smiley: `<reviewers>`'
+      - name: Show result
+        if: always()
+        run: echo '${{ steps.assign.outputs.result }}'
