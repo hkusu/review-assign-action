@@ -1,6 +1,6 @@
 # Review Assign Action
 
-Automatically set assignees and reviewers in pull request.
+Automatically set assignees and reviewers on pull requests.
 
 ## Inputs
 
