@@ -10,7 +10,7 @@ Accounts to automatically set to assignees when the pull request is opened(`open
 
 ### `exclude-assignees`
 
-Accounts that does not automatically set to assignees, eg `foo bar`. Specify bot accounts when assignees is specified as `${{ github.actor}}`.
+Accounts that does not automatically set to assignees, eg `foo, bar`. Specify bot accounts when assignees is specified as `${{ github.actor}}`.
 
 ### `reviewers`
 
