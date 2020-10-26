@@ -173,6 +173,55 @@ jobs:
         run: echo '${{ steps.assign.outputs.result }}' # success or failure
 ```
 
+### How to switch depending on the content of the pull request?
+
+Control with the workflow of GitHub Actions, for example:
+
+```yaml
+name: Review Assign
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hkusu/review-assign-action@v0.1.0
+        with:
+          assignees: ${{ github.actor }}
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: github.base_ref == 'master' # if the base branch name is 'master'
+        with:
+          reviewers: foo
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: startsWith(github.base_ref, 'develop_') # if the base branch name starts with 'develop_'
+        with:
+          reviewers: bar
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: startsWith(github.event.pull_request.title, 'bug') # if the title starts with 'bug'
+        with:
+          reviewers: baz
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: contains(github.event.pull_request.body, 'enhancement') # if the body contains 'enhancement'
+        with:
+          reviewers: qux
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: contains(github.event.pull_request.labels.*.name, 'help wanted') # if 'help wanted' label is attached
+        with:
+          reviewers: quux
+      - uses: hkusu/review-assign-action@v0.1.0
+        if: github.event.pull_request.milestone.title == 'v1.2.3' # if the milestone is 'v1.2.3'
+        with:
+          reviewers: corge
+```
+
+See also below.
+
+- [Workflow syntax for GitHub Actions](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions)
+- [Context and expression syntax for GitHub Actions](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions)
+
 ## License
 
 MIT
