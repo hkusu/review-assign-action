@@ -188,33 +188,18 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
+      - if: github.base_ref == 'master' # base branch name is 'master'
+        run: echo REVIEWERS=foo >> $GITHUB_ENV
+      - if: startsWith(github.base_ref, 'develop_') # base branch name starts with 'develop_'
+        run: echo REVIEWERS=bar >> $GITHUB_ENV
+      - if: startsWith(github.event.pull_request.title, 'bug') # title starts with 'bug'
+        run: echo REVIEWERS=foo, baz >> $GITHUB_ENV
+      - if: contains(github.event.pull_request.body, 'enhancement') # body contains 'enhancement'
+        run: echo REVIEWERS=foo, bar, baz >> $GITHUB_ENV
       - uses: hkusu/review-assign-action@v0.1.0
         with:
           assignees: ${{ github.actor }}
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: github.base_ref == 'master' # if the base branch name is 'master'
-        with:
-          reviewers: foo
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: startsWith(github.base_ref, 'develop_') # if the base branch name starts with 'develop_'
-        with:
-          reviewers: bar
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: startsWith(github.event.pull_request.title, 'bug') # if the title starts with 'bug'
-        with:
-          reviewers: baz
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: contains(github.event.pull_request.body, 'enhancement') # if the body contains 'enhancement'
-        with:
-          reviewers: qux
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: contains(github.event.pull_request.labels.*.name, 'help wanted') # if 'help wanted' label is attached
-        with:
-          reviewers: quux
-      - uses: hkusu/review-assign-action@v0.1.0
-        if: github.event.pull_request.milestone.title == 'v1.2.3' # if the milestone is 'v1.2.3'
-        with:
-          reviewers: corge
+          reviewers: ${{ env.REVIEWERS }}
 ```
 
 See also below.
