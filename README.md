@@ -65,7 +65,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.0
+      - uses: hkusu/review-assign-action@v0.1.1
         with:
           assignees: ${{ github.actor }} # assign pull request author
           reviewers: foo, bar, baz # if draft, assigned when draft is released
@@ -100,7 +100,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.0
+      - uses: hkusu/review-assign-action@v0.1.1
         with:
           ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when draft is released
           merged-comment: 'Thanks for your review :smiley:' # if reviewed, posted when merged
@@ -143,7 +143,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.0
+      - uses: hkusu/review-assign-action@v0.1.1
         with:
           reviewers: foo, bar, baz
           draft-keyword: wip # specify keyword(case insensitive).
@@ -164,7 +164,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.0
+      - uses: hkusu/review-assign-action@v0.1.1
         id: assign # specify id
         with:
           assignees: ${{ github.actor }}
@@ -196,7 +196,7 @@ jobs:
         run: echo REVIEWERS=foo, baz >> $GITHUB_ENV
       - if: contains(github.event.pull_request.body, 'enhancement') # body contains 'enhancement'
         run: echo REVIEWERS=foo, bar, baz >> $GITHUB_ENV
-      - uses: hkusu/review-assign-action@v0.1.0
+      - uses: hkusu/review-assign-action@v0.1.1
         with:
           assignees: ${{ github.actor }}
           reviewers: ${{ env.REVIEWERS }}
