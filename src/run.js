@@ -44,6 +44,8 @@ async function setAssignees(input, event) {
 async function setReviewers(input, event) {
   if (!input.reviewers) return;
   if (event.action != 'opened' &&event.action != 'ready_for_review' && event.action != 'edited') return;
+  const upperTitle = event.pull_request.title.toUpperCase();
+  if (upperTitle.includes('SKIP ASSIGN') || upperTitle.includes('ASSIGN SKIP')) return;
   if (event.pull_request.state != 'open') return; // for edit
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
