@@ -103,7 +103,7 @@ jobs:
       - uses: hkusu/review-assign-action@v0.1.1
         with:
           ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when draft is released
-          merged-comment: 'Thanks for your review :smiley:' # if reviewed, posted when merged
+          merged-comment: 'It was merged. Thanks for your review :wink:' # if reviewed, posted when merged
 ```
 
 #### Mention to reviewers
@@ -113,7 +113,7 @@ jobs:
 
 ```yaml
 ready-comment: 'Ready for review :rocket: <reviewers>'
-merged-comment: 'Thanks for your review :smiley: <reviewers>'
+merged-comment: 'It was merged. Thanks for your review :wink: <reviewers>'
 ```
 
 ##### *NOTE:* 
@@ -125,7 +125,7 @@ If you don't want to mention, use inline code with back quotes.
 
 ```yaml
 ready-comment: 'Ready for review :rocket: `<reviewers>`'
-merged-comment: 'Thanks for your review :smiley: `<reviewers>`'
+merged-comment: 'It was merged. Thanks for your review :wink: `<reviewers>`'
 ```
 
 ### wip(work in process) support

@@ -21,7 +21,7 @@ jobs:
           #reviewers: foo, bar, baz
           #max-num-of-reviewers: 2
           draft-keyword: wip
-          ready-comment: 'Ready for Review :rocket: `<reviewers>`'
+          ready-comment: 'Ready for review :rocket: `<reviewers>`'
       - name: Show result
         if: always()
         run: echo '${{ steps.assign.outputs.result }}'
@@ -34,7 +34,7 @@ jobs:
         uses: hkusu/review-assign-action@master
         id: assign
         with:
-          merged-comment: 'Thanks for your review :smiley: `<reviewers>`'
+          merged-comment: 'It was merged. Thanks for your review :wink: `<reviewers>`'
       - name: Show result
         if: always()
         run: echo '${{ steps.assign.outputs.result }}'
