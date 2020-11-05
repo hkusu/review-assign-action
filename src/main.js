@@ -47,8 +47,8 @@ if (NODE_ENV != 'local') {
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
-    readyComment: 'Ready for Review :rocket: `<reviewers>`',
-    mergedComment: 'Thanks for your review :smiley: `<reviewers>`',
+    readyComment: 'Ready for review :rocket: `<reviewers>`',
+    mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
     githubToken: GITHUB_TOKEN,
     eventJson: JSON.stringify(event),
   };
