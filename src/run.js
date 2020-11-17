@@ -3,21 +3,21 @@ const { github, unique, getRandomInt } = require('./utils');
 const NODE_ENV = process.env['NODE_ENV'];
 
 async function run(input) {
-    let event;
-    try {
-      event = JSON.parse(input.eventJson);
-    } catch (e) {
-      throw new Error('Set "event_json" correctly using event of pull request workflow.');
-    }
+  let event;
+  try {
+    event = JSON.parse(input.eventJson);
+  } catch (e) {
+    throw new Error('Set "event-json" correctly using event of pull request workflow.');
+  }
 
-    if (!event.action || !event.pull_request) {
-      throw new Error('Use this action in "pull_request" workflow, or, set "event_json" correctly using event of pull request workflow.');
-    }
+  if (!event.action || !event.pull_request) {
+    throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
+  }
 
-    await setAssignees(input, event);
-    await setReviewers(input, event);
-    await postReadyComment(input, event);
-    await postMergedComment(input, event);
+  await setAssignees(input, event);
+  await setReviewers(input, event);
+  await postReadyComment(input, event);
+  await postMergedComment(input, event);
 }
 
 async function setAssignees(input, event) {
