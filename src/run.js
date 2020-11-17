@@ -7,11 +7,11 @@ async function run(input) {
     try {
       event = JSON.parse(input.eventJson);
     } catch (e) {
-      throw new Error('Set "event_json" correctly using event of pull request workflow.');
+      throw new Error('Set "event-json" correctly using event of pull request workflow.');
     }
 
     if (!event.action || !event.pull_request) {
-      throw new Error('Use this action in "pull_request" workflow, or, set "event_json" correctly using event of pull request workflow.');
+      throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
     }
 
     await setAssignees(input, event);
