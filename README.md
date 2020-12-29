@@ -38,10 +38,6 @@ Comment to reviewers that the pull request is merged. If specified, the specifie
 
 Specify when overriding default GitHub token. Used when running as another user.
 
-### `event-json`
-
-Specify when overriding GitHub events. (Normally not used.)
-    
 ## Outputs
 
 ### `result`

@@ -323,10 +323,10 @@ if (NODE_ENV != 'local') {
     readyComment: core.getInput('ready-comment'),
     mergedComment: core.getInput('merged-comment'),
     githubToken: core.getInput('github-token'),
-    eventJson: core.getInput('event-json'),
+    event: core.getInput('event'),
   };
 } else {
-  event = {
+  const event = {
     action: 'opened',
     changes: {
       title: {
@@ -356,7 +356,7 @@ if (NODE_ENV != 'local') {
     readyComment: 'Ready for review :rocket: `<reviewers>`',
     mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
     githubToken: GITHUB_TOKEN,
-    eventJson: JSON.stringify(event),
+    event: JSON.stringify(event),
   };
 }
 
@@ -1554,13 +1554,13 @@ const NODE_ENV = process.env['NODE_ENV'];
 async function run(input) {
   let event;
   try {
-    event = JSON.parse(input.eventJson);
+    event = JSON.parse(input.event);
   } catch (e) {
-    throw new Error('Set "event-json" correctly using event of pull request workflow.');
+    throw new Error('JSON parse error. "event" input is invalid.');
   }
 
   if (!event.action || !event.pull_request) {
-    throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
+    throw new Error('Use this action in "pull_request" workflow.');
   }
 
   await setAssignees(input, event);

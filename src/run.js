@@ -5,13 +5,13 @@ const NODE_ENV = process.env['NODE_ENV'];
 async function run(input) {
   let event;
   try {
-    event = JSON.parse(input.eventJson);
+    event = JSON.parse(input.event);
   } catch (e) {
-    throw new Error('Set "event-json" correctly using event of pull request workflow.');
+    throw new Error('JSON parse error. "event" input is invalid.');
   }
 
   if (!event.action || !event.pull_request) {
-    throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
+    throw new Error('Use this action in "pull_request" workflow.');
   }
 
   await setAssignees(input, event);

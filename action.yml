@@ -30,8 +30,8 @@ inputs:
     description: 'Specify when overriding default GitHub token.'
     default: ${{ github.token }}
     required: false
-  event-json:
-    description: 'Specify when overriding GitHub events.'
+  event:
+    description: 'This application is using it. Users do not use this.'
     default: ${{ toJson(github.event) }}
     required: false
 outputs:

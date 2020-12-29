@@ -17,10 +17,10 @@ if (NODE_ENV != 'local') {
     readyComment: core.getInput('ready-comment'),
     mergedComment: core.getInput('merged-comment'),
     githubToken: core.getInput('github-token'),
-    eventJson: core.getInput('event-json'),
+    event: core.getInput('event'),
   };
 } else {
-  event = {
+  const event = {
     action: 'opened',
     changes: {
       title: {
@@ -50,7 +50,7 @@ if (NODE_ENV != 'local') {
     readyComment: 'Ready for review :rocket: `<reviewers>`',
     mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
     githubToken: GITHUB_TOKEN,
-    eventJson: JSON.stringify(event),
+    event: JSON.stringify(event),
   };
 }
 
