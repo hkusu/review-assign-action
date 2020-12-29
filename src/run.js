@@ -28,10 +28,10 @@ async function setAssignees(input, event) {
 
   const originalAssignees = input.assignees.replace(/\s/g, '').split(',');
 
-  const excludeAssignees = input.excludeAssignees.replace(/\s/g, '').split(',');
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
 
   const assignees = originalAssignees
-     .filter(assignee => !excludeAssignees.includes(assignee))
+     .filter(assignee => !botAccounts.includes(assignee))
      .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
@@ -118,8 +118,11 @@ async function postMergedComment(input, event) {
 
   const authors = [event.pull_request.user.login];
 
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
+
   const reviewers = originalReviewers
     .filter(reviewer => !authors.includes(reviewer))
+    .filter(reviewer => !botAccounts.includes(reviewer))
     .filter(reviewer => !reviewer.endsWith('[bot]'));
 
   if (reviewers.length == 0) return;

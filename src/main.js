@@ -10,7 +10,7 @@ let input;
 if (NODE_ENV != 'local') {
   input = {
     assignees: core.getInput('assignees'),
-    excludeAssignees: core.getInput('exclude-assignees'),
+    botAccounts: core.getInput('bot-accounts'),
     reviewers: core.getInput('reviewers'),
     maxNumOfReviewers: core.getInput('max-num-of-reviewers'),
     draftKeyword: core.getInput('draft-keyword'),
@@ -43,7 +43,7 @@ if (NODE_ENV != 'local') {
   };
   input = {
     assignees: 'hkusu',
-    excludeAssignees: '',
+    botAccounts: 'some-bot',
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',

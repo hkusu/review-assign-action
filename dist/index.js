@@ -316,7 +316,7 @@ let input;
 if (NODE_ENV != 'local') {
   input = {
     assignees: core.getInput('assignees'),
-    excludeAssignees: core.getInput('exclude-assignees'),
+    botAccounts: core.getInput('bot-accounts'),
     reviewers: core.getInput('reviewers'),
     maxNumOfReviewers: core.getInput('max-num-of-reviewers'),
     draftKeyword: core.getInput('draft-keyword'),
@@ -349,7 +349,7 @@ if (NODE_ENV != 'local') {
   };
   input = {
     assignees: 'hkusu',
-    excludeAssignees: '',
+    botAccounts: 'some-bot',
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
@@ -1577,10 +1577,10 @@ async function setAssignees(input, event) {
 
   const originalAssignees = input.assignees.replace(/\s/g, '').split(',');
 
-  const excludeAssignees = input.excludeAssignees.replace(/\s/g, '').split(',');
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
 
   const assignees = originalAssignees
-     .filter(assignee => !excludeAssignees.includes(assignee))
+     .filter(assignee => !botAccounts.includes(assignee))
      .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
@@ -1667,8 +1667,11 @@ async function postMergedComment(input, event) {
 
   const authors = [event.pull_request.user.login];
 
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
+
   const reviewers = originalReviewers
     .filter(reviewer => !authors.includes(reviewer))
+    .filter(reviewer => !botAccounts.includes(reviewer))
     .filter(reviewer => !reviewer.endsWith('[bot]'));
 
   if (reviewers.length == 0) return;
