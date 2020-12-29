@@ -26,11 +26,13 @@ async function setAssignees(input, event) {
   const upperTitle = event.pull_request.title.toUpperCase();
   if (upperTitle.includes('SKIP ASSIGN') || upperTitle.includes('ASSIGN SKIP')) return;
 
-  const allAssignees = input.assignees.replace(/\s/g, '').split(',');
+  const originalAssignees = input.assignees.replace(/\s/g, '').split(',');
 
   const excludeAssignees = input.excludeAssignees.replace(/\s/g, '').split(',');
 
-  const assignees = allAssignees.filter(assignee => !excludeAssignees.includes(assignee));
+  const assignees = originalAssignees
+     .filter(assignee => !excludeAssignees.includes(assignee))
+     .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
 
@@ -52,11 +54,11 @@ async function setReviewers(input, event) {
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
   if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
-  const allReviewers = input.reviewers.replace(/\s/g, '').split(',');
+  const originalReviewers = input.reviewers.replace(/\s/g, '').split(',');
 
   const author = event.pull_request.user.login;
 
-  const reviewers = allReviewers.filter(reviewer => reviewer != author);
+  const reviewers = originalReviewers.filter(reviewer => reviewer != author);
 
   if (reviewers.length == 0) return;
 
@@ -108,7 +110,7 @@ async function postMergedComment(input, event) {
 
   const reviews = await github.getReviews(event, input.githubToken);
 
-  const allReviewers = unique(reviews.map(review => review.user.login));
+  const originalReviewers = unique(reviews.map(review => review.user.login));
 
   // Current specifications, `authors` is the author of the pull request, so comment out
   // const commits = await github.getCommits(event, input.githubToken);
@@ -116,7 +118,9 @@ async function postMergedComment(input, event) {
 
   const authors = [event.pull_request.user.login];
 
-  const reviewers = allReviewers.filter(reviewer => !authors.includes(reviewer));
+  const reviewers = originalReviewers
+    .filter(reviewer => !authors.includes(reviewer))
+    .filter(reviewer => !reviewer.endsWith('[bot]'));
 
   if (reviewers.length == 0) return;
 
