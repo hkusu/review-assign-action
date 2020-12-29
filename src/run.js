@@ -50,7 +50,7 @@ async function setReviewers(input, event) {
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
-  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
+  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
   const allReviewers = input.reviewers.replace(/\s/g, '').split(',');
 
@@ -80,7 +80,7 @@ async function postReadyComment(input, event) {
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
-  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
+  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
   const requestedReviewers = await github.getRequestedReviewers(event, input.githubToken);
 

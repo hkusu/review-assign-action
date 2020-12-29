@@ -353,8 +353,8 @@ if (NODE_ENV != 'local') {
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
-    readyComment: 'Ready for Review :rocket: `<reviewers>`',
-    mergedComment: 'Thanks for your review :smiley: `<reviewers>`',
+    readyComment: 'Ready for review :rocket: `<reviewers>`',
+    mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
     githubToken: GITHUB_TOKEN,
     eventJson: JSON.stringify(event),
   };
@@ -1552,21 +1552,21 @@ const { github, unique, getRandomInt } = __webpack_require__(543);
 const NODE_ENV = process.env['NODE_ENV'];
 
 async function run(input) {
-    let event;
-    try {
-      event = JSON.parse(input.eventJson);
-    } catch (e) {
-      throw new Error('Set "event_json" correctly using event of pull request workflow.');
-    }
+  let event;
+  try {
+    event = JSON.parse(input.eventJson);
+  } catch (e) {
+    throw new Error('Set "event-json" correctly using event of pull request workflow.');
+  }
 
-    if (!event.action || !event.pull_request) {
-      throw new Error('Use this action in "pull_request" workflow, or, set "event_json" correctly using event of pull request workflow.');
-    }
+  if (!event.action || !event.pull_request) {
+    throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
+  }
 
-    await setAssignees(input, event);
-    await setReviewers(input, event);
-    await postReadyComment(input, event);
-    await postMergedComment(input, event);
+  await setAssignees(input, event);
+  await setReviewers(input, event);
+  await postReadyComment(input, event);
+  await postMergedComment(input, event);
 }
 
 async function setAssignees(input, event) {
@@ -1599,7 +1599,7 @@ async function setReviewers(input, event) {
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
-  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
+  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
   const allReviewers = input.reviewers.replace(/\s/g, '').split(',');
 
@@ -1629,7 +1629,7 @@ async function postReadyComment(input, event) {
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
-  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
+  if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
   const requestedReviewers = await github.getRequestedReviewers(event, input.githubToken);
 
