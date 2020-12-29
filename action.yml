@@ -6,32 +6,32 @@ branding:
   color: 'white'
 inputs:
   assignees:
-    description: 'Accounts to automatically set to assignees, eg `foo, bar`.'
+    description: ''
     required: false
-  exclude-assignees:
-    description: 'Accounts that does not automatically set to assignees, eg `foo bar`.'
+  bot-accounts:
+    description: ''
     required: false
   reviewers:
-    description: 'Accounts to automatically set to reviewers, eg `foo, bar`.'
+    description: ''
     required: false
   max-num-of-reviewers:
-    description: 'Reviewers are randomly selected below the specified number.'
+    description: ''
     required: false
   draft-keyword:
-    description: 'A keyword in the pull request title to treat it like a GitHub standard draft pull requests, eg `wip`. Case insensitive.'
+    description: ''
     required: false
   ready-comment:
-    description: 'Specified comment will be posted when the draft is released.'
+    description: ''
     required: false
   merged-comment:
-    description: 'Specified comment will be posted when the pull request is merged.'
+    description: ''
     required: false
   github-token:
-    description: 'Specify when overriding default GitHub token.'
+    description: ''
     default: ${{ github.token }}
     required: false
   event:
-    description: 'This application is using it. Users do not use this.'
+    description: ''
     default: ${{ toJson(github.event) }}
     required: false
 outputs:
