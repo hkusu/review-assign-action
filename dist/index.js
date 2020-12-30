@@ -1547,6 +1547,7 @@ module.exports = require("stream");
 /***/ 430:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
+const core = __webpack_require__(470);
 const { github, unique, getRandomInt } = __webpack_require__(543);
 
 const NODE_ENV = process.env['NODE_ENV'];
@@ -1612,6 +1613,10 @@ async function setReviewers(input, event) {
   if (reviewers.length == 0) return;
 
   const maxNumOfReviewers = parseInt(input.maxNumOfReviewers);
+
+  if (!maxNumOfReviewers) {
+    core.warning('"max-num-of-reviewers" input should be a number.');
+  }
 
   while(maxNumOfReviewers && maxNumOfReviewers < reviewers.length) {
     reviewers.splice(getRandomInt(reviewers.length), 1);

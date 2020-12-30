@@ -1,3 +1,4 @@
+const core = require('@actions/core');
 const { github, unique, getRandomInt } = require('./utils');
 
 const NODE_ENV = process.env['NODE_ENV'];
@@ -63,6 +64,10 @@ async function setReviewers(input, event) {
   if (reviewers.length == 0) return;
 
   const maxNumOfReviewers = parseInt(input.maxNumOfReviewers);
+
+  if (!maxNumOfReviewers) {
+    core.warning('"max-num-of-reviewers" input should be a number.');
+  }
 
   while(maxNumOfReviewers && maxNumOfReviewers < reviewers.length) {
     reviewers.splice(getRandomInt(reviewers.length), 1);
