@@ -8,7 +8,7 @@ All inputs for this action are **optional**, so use only the inputs you want to 
 
 ### `assignees`
 
-Accounts to automatically set to assignees when the pull request is opened(`opened` event subscription required), eg `foo, bar`. Specify accounts that have permission to access the repository. Not set if the title contains `skip assign` or `assign skip` keywords. If you want to specify the author of the pull request, specify `${{ github.actor}}`.
+Accounts to automatically set to assignees when the pull request is opened(`opened` event subscription required), eg `foo, bar`. Specify accounts that have permission to access the repository. Not set if the title contains `skip assign` or `assign skip` keywords. If you want to specify the author of the pull request, specify `${{ github.actor}}`. Bot accounts are excluded.
 
 ### `reviewers`
 
@@ -28,7 +28,7 @@ Comment to reviewers that the review is ready. The specified comment will be pos
 
 ### `merged-comment`
 
-Comment to reviewers that the pull request is merged. The specified comment will be posted when the pull request is merged(`closed` event subscription required). Not posted if the review has not been submitted. The `<reviewers>` keyword in the comment is replaced with the accounts that submitted the review, like `@foo @bar`.
+Comment to reviewers that the pull request is merged. The specified comment will be posted when the pull request is merged(`closed` event subscription required). Not posted if the review has not been submitted. The `<reviewers>` keyword in the comment is replaced with the accounts that submitted the review, like `@foo @bar`. Bot accounts are excluded.
 
 ### `bot-accounts`
 
