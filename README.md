@@ -1,6 +1,6 @@
 # Review Assign Action
 
-Automatically set assignees and reviewers on pull requests.
+Automatically set assignees and reviewers in pull request.
 
 ## Inputs
 
@@ -9,10 +9,6 @@ All inputs for this action are **optional**, so use only the inputs you want to 
 ### `assignees`
 
 Accounts to automatically set to assignees when the pull request is opened(`opened` event subscription required), eg `foo, bar`. Specify accounts that have permission to access the repository. Not set if the title contains `skip assign` or `assign skip` keywords. If you want to specify the author of the pull request, specify `${{ github.actor}}`.
-
-### `exclude-assignees`
-
-Accounts that does not automatically set to assignees, eg `foo, bar`. Specify bot accounts to create the pull request when assignees is specified as `${{ github.actor}}`.
 
 ### `reviewers`
 
@@ -28,20 +24,20 @@ A keyword in the pull request title to treat as draft pull requests(`edited` eve
 
 ### `ready-comment`
 
-Comment to reviewers that the review is ready. If specified, the specified comment will be posted when the draft is released(`ready_for_review` event subscription required). Not posted if reviewers are not set. The `<reviewers>` keyword in the comment is replaced with the review-requested accounts, like `@foo @bar`.
+Comment to reviewers that the review is ready. The specified comment will be posted when the draft is released(`ready_for_review` event subscription required). Not posted if reviewers are not set. The `<reviewers>` keyword in the comment is replaced with the review-requested accounts, like `@foo @bar`.
 
 ### `merged-comment`
 
-Comment to reviewers that the pull request is merged. If specified, the specified comment will be posted when the pull request is merged(`closed` event subscription required). Not posted if the review has not been submitted. The `<reviewers>` keyword in the comment is replaced with the accounts that submitted the review, like `@foo @bar`.
+Comment to reviewers that the pull request is merged. The specified comment will be posted when the pull request is merged(`closed` event subscription required). Not posted if the review has not been submitted. The `<reviewers>` keyword in the comment is replaced with the accounts that submitted the review, like `@foo @bar`.
+
+### `bot-accounts`
+
+Accounts excluded from assignees etc, eg `foo, bar`. Account names that end with `[bot]` are implicitly recognized as bots, even if not specified, such as `dependabot[bot]`.
 
 ### `github-token`
 
 Specify when overriding default GitHub token. Used when running as another user.
 
-### `event-json`
-
-Specify when overriding GitHub events. (Normally not used.)
-    
 ## Outputs
 
 ### `result`
@@ -52,7 +48,7 @@ Specify when overriding GitHub events. (Normally not used.)
 
 ### Basic usage
 
-Automatically set assignees and reviewers on pull requests.
+Automatically set assignees and reviewers in pull request.
 
 ```yaml
 name: Review Assign
@@ -65,11 +61,13 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.2
+      - uses: hkusu/review-assign-action@v1
         with:
           assignees: ${{ github.actor }} # assign pull request author
           reviewers: foo, bar, baz # if draft, assigned when draft is released
 ```
+
+If you want to skip assign on a particular pull request, include `skip assign` or `assign skip` keywords in the pull request title.
 
 To randomly select reviewers:
 
@@ -80,10 +78,10 @@ max-num-of-reviewers: 2
 To avoid setting assignees for bot-generated pull requests:
 
 ```yaml
-exclude-assignees: dependabot[bot], foo-bot, bar-bot # specify bot accounts
+bot-accounts: foo-bot, bar-bot
 ```
 
-If you want to skip assign on a particular pull request, include `skip assign` or `assign skip` keywords in the pull request title.
+Account names that end with `[bot]` are implicitly recognized as bots, even if not specified, such as `dependabot[bot]`.
 
 ### Comments to reviewers
 
@@ -100,7 +98,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.2
+      - uses: hkusu/review-assign-action@v1
         with:
           ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when draft is released
           merged-comment: 'It was merged. Thanks for your review :wink:' # if reviewed, posted when merged
@@ -143,7 +141,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.2
+      - uses: hkusu/review-assign-action@v1
         with:
           reviewers: foo, bar, baz
           draft-keyword: wip # specify keyword(case insensitive).
@@ -164,7 +162,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: hkusu/review-assign-action@v0.1.2
+      - uses: hkusu/review-assign-action@v1
         id: assign # specify id
         with:
           assignees: ${{ github.actor }}
@@ -196,7 +194,7 @@ jobs:
         run: echo REVIEWERS=foo, baz >> $GITHUB_ENV
       - if: contains(github.event.pull_request.body, 'enhancement') # body contains 'enhancement'
         run: echo REVIEWERS=foo, bar, baz >> $GITHUB_ENV
-      - uses: hkusu/review-assign-action@v0.1.2
+      - uses: hkusu/review-assign-action@v1
         with:
           assignees: ${{ github.actor }}
           reviewers: ${{ env.REVIEWERS }}

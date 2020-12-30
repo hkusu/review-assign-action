@@ -17,7 +17,7 @@ jobs:
         id: assign
         with:
           assignees: ${{ github.actor }}
-          exclude-assignees: dependabot[bot]
+          bot-accounts: some-bot
           #reviewers: foo, bar, baz
           #max-num-of-reviewers: 2
           draft-keyword: wip

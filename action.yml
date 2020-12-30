@@ -1,37 +1,37 @@
 name: 'Review Assign Action'
-description: 'Automatically set assignees and reviewers on pull requests.'
+description: 'Automatically set assignees and reviewers in pull request.'
 author: 'Hiroyuki Kusu'
 branding:
   icon: 'users'
   color: 'white'
 inputs:
   assignees:
-    description: 'Accounts to automatically set to assignees, eg `foo, bar`.'
-    required: false
-  exclude-assignees:
-    description: 'Accounts that does not automatically set to assignees, eg `foo bar`.'
+    description: ''
     required: false
   reviewers:
-    description: 'Accounts to automatically set to reviewers, eg `foo, bar`.'
+    description: ''
     required: false
   max-num-of-reviewers:
-    description: 'Reviewers are randomly selected below the specified number.'
+    description: ''
     required: false
   draft-keyword:
-    description: 'A keyword in the pull request title to treat it like a GitHub standard draft pull requests, eg `wip`. Case insensitive.'
+    description: ''
     required: false
   ready-comment:
-    description: 'Specified comment will be posted when the draft is released.'
+    description: ''
     required: false
   merged-comment:
-    description: 'Specified comment will be posted when the pull request is merged.'
+    description: ''
+    required: false
+  bot-accounts:
+    description: ''
     required: false
   github-token:
-    description: 'Specify when overriding default GitHub token.'
+    description: ''
     default: ${{ github.token }}
     required: false
-  event-json:
-    description: 'Specify when overriding GitHub events.'
+  event:
+    description: ''
     default: ${{ toJson(github.event) }}
     required: false
 outputs:

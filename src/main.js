@@ -10,17 +10,17 @@ let input;
 if (NODE_ENV != 'local') {
   input = {
     assignees: core.getInput('assignees'),
-    excludeAssignees: core.getInput('exclude-assignees'),
     reviewers: core.getInput('reviewers'),
     maxNumOfReviewers: core.getInput('max-num-of-reviewers'),
     draftKeyword: core.getInput('draft-keyword'),
     readyComment: core.getInput('ready-comment'),
     mergedComment: core.getInput('merged-comment'),
+    botAccounts: core.getInput('bot-accounts'),
     githubToken: core.getInput('github-token'),
-    eventJson: core.getInput('event-json'),
+    event: core.getInput('event'),
   };
 } else {
-  event = {
+  const event = {
     action: 'opened',
     changes: {
       title: {
@@ -43,14 +43,14 @@ if (NODE_ENV != 'local') {
   };
   input = {
     assignees: 'hkusu',
-    excludeAssignees: '',
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
     readyComment: 'Ready for review :rocket: `<reviewers>`',
     mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
+    botAccounts: 'some-bot',
     githubToken: GITHUB_TOKEN,
-    eventJson: JSON.stringify(event),
+    event: JSON.stringify(event),
   };
 }
 

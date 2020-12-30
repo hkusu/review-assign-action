@@ -316,17 +316,17 @@ let input;
 if (NODE_ENV != 'local') {
   input = {
     assignees: core.getInput('assignees'),
-    excludeAssignees: core.getInput('exclude-assignees'),
     reviewers: core.getInput('reviewers'),
     maxNumOfReviewers: core.getInput('max-num-of-reviewers'),
     draftKeyword: core.getInput('draft-keyword'),
     readyComment: core.getInput('ready-comment'),
     mergedComment: core.getInput('merged-comment'),
+    botAccounts: core.getInput('bot-accounts'),
     githubToken: core.getInput('github-token'),
-    eventJson: core.getInput('event-json'),
+    event: core.getInput('event'),
   };
 } else {
-  event = {
+  const event = {
     action: 'opened',
     changes: {
       title: {
@@ -349,14 +349,14 @@ if (NODE_ENV != 'local') {
   };
   input = {
     assignees: 'hkusu',
-    excludeAssignees: '',
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
     readyComment: 'Ready for review :rocket: `<reviewers>`',
     mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
+    botAccounts: 'some-bot',
     githubToken: GITHUB_TOKEN,
-    eventJson: JSON.stringify(event),
+    event: JSON.stringify(event),
   };
 }
 
@@ -1554,13 +1554,13 @@ const NODE_ENV = process.env['NODE_ENV'];
 async function run(input) {
   let event;
   try {
-    event = JSON.parse(input.eventJson);
+    event = JSON.parse(input.event);
   } catch (e) {
-    throw new Error('Set "event-json" correctly using event of pull request workflow.');
+    throw new Error('JSON parse error. "event" input is invalid.');
   }
 
   if (!event.action || !event.pull_request) {
-    throw new Error('Use this action in "pull_request" workflow, or, set "event-json" correctly using event of pull request workflow.');
+    throw new Error('Use this action in "pull_request" workflow.');
   }
 
   await setAssignees(input, event);
@@ -1575,11 +1575,13 @@ async function setAssignees(input, event) {
   const upperTitle = event.pull_request.title.toUpperCase();
   if (upperTitle.includes('SKIP ASSIGN') || upperTitle.includes('ASSIGN SKIP')) return;
 
-  const allAssignees = input.assignees.replace(/\s/g, '').split(',');
+  const originalAssignees = input.assignees.replace(/\s/g, '').split(',');
 
-  const excludeAssignees = input.excludeAssignees.replace(/\s/g, '').split(',');
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
 
-  const assignees = allAssignees.filter(assignee => !excludeAssignees.includes(assignee));
+  const assignees = originalAssignees
+     .filter(assignee => !botAccounts.includes(assignee))
+     .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
 
@@ -1601,11 +1603,11 @@ async function setReviewers(input, event) {
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
   if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
-  const allReviewers = input.reviewers.replace(/\s/g, '').split(',');
+  const originalReviewers = input.reviewers.replace(/\s/g, '').split(',');
 
   const author = event.pull_request.user.login;
 
-  const reviewers = allReviewers.filter(reviewer => reviewer != author);
+  const reviewers = originalReviewers.filter(reviewer => reviewer != author);
 
   if (reviewers.length == 0) return;
 
@@ -1657,7 +1659,7 @@ async function postMergedComment(input, event) {
 
   const reviews = await github.getReviews(event, input.githubToken);
 
-  const allReviewers = unique(reviews.map(review => review.user.login));
+  const originalReviewers = unique(reviews.map(review => review.user.login));
 
   // Current specifications, `authors` is the author of the pull request, so comment out
   // const commits = await github.getCommits(event, input.githubToken);
@@ -1665,7 +1667,12 @@ async function postMergedComment(input, event) {
 
   const authors = [event.pull_request.user.login];
 
-  const reviewers = allReviewers.filter(reviewer => !authors.includes(reviewer));
+  const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
+
+  const reviewers = originalReviewers
+    .filter(reviewer => !authors.includes(reviewer))
+    .filter(reviewer => !botAccounts.includes(reviewer))
+    .filter(reviewer => !reviewer.endsWith('[bot]'));
 
   if (reviewers.length == 0) return;
 

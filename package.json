@@ -1,6 +1,6 @@
 {
   "name": "review-assign-action",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Automatically set assignees and reviewers on pull requests.",
   "main": "src/main.js",
   "author": "Hiroyuki Kusu <kusu0806@gmail.com>",
