@@ -1,5 +1,5 @@
 name: 'Review Assign Action'
-description: 'Automatically set assignees and reviewers on pull requests.'
+description: 'Automatically set assignees and reviewers in pull request.'
 author: 'Hiroyuki Kusu'
 branding:
   icon: 'users'
