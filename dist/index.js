@@ -316,12 +316,12 @@ let input;
 if (NODE_ENV != 'local') {
   input = {
     assignees: core.getInput('assignees'),
-    botAccounts: core.getInput('bot-accounts'),
     reviewers: core.getInput('reviewers'),
     maxNumOfReviewers: core.getInput('max-num-of-reviewers'),
     draftKeyword: core.getInput('draft-keyword'),
     readyComment: core.getInput('ready-comment'),
     mergedComment: core.getInput('merged-comment'),
+    botAccounts: core.getInput('bot-accounts'),
     githubToken: core.getInput('github-token'),
     event: core.getInput('event'),
   };
@@ -349,12 +349,12 @@ if (NODE_ENV != 'local') {
   };
   input = {
     assignees: 'hkusu',
-    botAccounts: 'some-bot',
     reviewers: 'hkusu, foo, bar',
     maxNumOfReviewers: '2',
     draftKeyword: 'wip',
     readyComment: 'Ready for review :rocket: `<reviewers>`',
     mergedComment: 'It was merged. Thanks for your review :wink: `<reviewers>`',
+    botAccounts: 'some-bot',
     githubToken: GITHUB_TOKEN,
     event: JSON.stringify(event),
   };

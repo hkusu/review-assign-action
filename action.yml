@@ -8,9 +8,6 @@ inputs:
   assignees:
     description: ''
     required: false
-  bot-accounts:
-    description: ''
-    required: false
   reviewers:
     description: ''
     required: false
@@ -24,6 +21,9 @@ inputs:
     description: ''
     required: false
   merged-comment:
+    description: ''
+    required: false
+  bot-accounts:
     description: ''
     required: false
   github-token:
