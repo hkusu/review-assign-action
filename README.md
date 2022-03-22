@@ -16,7 +16,7 @@ Accounts to automatically set to reviewers when the pull request is opened(`open
     
 ### `max-num-of-reviewers`
 
-If this number is specified, reviewers are randomly selected less than the specified number.
+If this number is specified, reviewers are randomly selected less than the specified number. Useful for randomly assigning.
     
 ### `draft-keyword`
 
@@ -24,7 +24,7 @@ A keyword in the pull request title to treat as draft pull requests(`edited` eve
 
 ### `ready-comment`
 
-Comment to reviewers that the review is ready. The specified comment will be posted when the draft is released(`ready_for_review` event subscription required). Not posted if reviewers are not set. The `<reviewers>` keyword in the comment is replaced with the review-requested accounts, like `@foo @bar`.
+Comment to reviewers that the review is ready. The specified comment will be posted when the pull request is opened or the draft is released(`opened` and `ready_for_review` events subscription required). Not posted if reviewers are not set. The `<reviewers>` keyword in the comment is replaced with the review-requested accounts, like `@foo @bar`.
 
 ### `merged-comment`
 
@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: hkusu/review-assign-action@v1
         with:
-          ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when draft is released
+          ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when opened or draft is released
           merged-comment: 'It was merged. Thanks for your review :wink:' # if reviewed, posted when merged
 ```
 
