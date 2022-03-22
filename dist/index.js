@@ -1631,7 +1631,7 @@ async function setReviewers(input, event) {
 
 async function postReadyComment(input, event) {
   if (!input.readyComment) return;
-  if (event.action != 'ready_for_review' && event.action != 'edited') return;
+  if (event.action != 'opened' && event.action != 'ready_for_review' && event.action != 'edited') return;
   if (event.pull_request.state != 'open') return; // for edit
   if (event.pull_request.draft) return;
   const upperDraftKeyword = input.draftKeyword.toUpperCase();
