@@ -63,14 +63,15 @@ async function setReviewers(input, event) {
 
   if (reviewers.length == 0) return;
 
-  const maxNumOfReviewers = parseInt(input.maxNumOfReviewers);
-
-  if (!maxNumOfReviewers) {
-    core.warning('"max-num-of-reviewers" input should be a number.');
-  }
-
-  while(maxNumOfReviewers && maxNumOfReviewers < reviewers.length) {
-    reviewers.splice(getRandomInt(reviewers.length), 1);
+  if (input.maxNumOfReviewers)  {
+    const maxNumOfReviewers = parseInt(input.maxNumOfReviewers);
+    if (!maxNumOfReviewers || maxNumOfReviewers < 1) {
+      core.warning('"max-num-of-reviewers" input should be a number greater than or equal to 1.');
+    } else {
+      while(maxNumOfReviewers < reviewers.length) {
+        reviewers.splice(getRandomInt(reviewers.length), 1);
+      }
+    }
   }
 
   if (NODE_ENV != 'local') {
