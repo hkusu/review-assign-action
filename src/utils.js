@@ -34,7 +34,7 @@ async function setReviewers(event, token, reviewers) {
       },
     });
   } catch(e) {
-    throw new Error(createErrorMessage(e, '"github-token" or "reviewers" may not be correct.'));
+    throw new Error(createErrorMessage(e, '"github-token" or "reviewers" may not be correct. For "reviewers", specify accounts that have permission to access the repository.'));
   }
 }
 
