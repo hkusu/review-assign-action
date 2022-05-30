@@ -1582,7 +1582,8 @@ async function setAssignees(input, event) {
 
   const assignees = originalAssignees
      .filter(assignee => !botAccounts.includes(assignee))
-     .filter(assignee => !assignee.endsWith('[bot]'));
+     .filter(assignee => !assignee.endsWith('[bot]'))
+     .filter((element, index, array) => array.indexOf(element) === index); // delete duplicate accounts
 
   if (assignees.length == 0) return;
 
@@ -1608,7 +1609,9 @@ async function setReviewers(input, event) {
 
   const author = event.pull_request.user.login;
 
-  const reviewers = originalReviewers.filter(reviewer => reviewer != author);
+  const reviewers = originalReviewers
+      .filter(reviewer => reviewer != author)
+      .filter((element, index, array) => array.indexOf(element) === index); // delete duplicate accounts
 
   if (reviewers.length == 0) return;
 
