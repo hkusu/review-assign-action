@@ -1576,15 +1576,13 @@ async function setAssignees(input, event) {
   const upperTitle = event.pull_request.title.toUpperCase();
   if (upperTitle.includes('SKIP ASSIGN') || upperTitle.includes('ASSIGN SKIP')) return;
 
-  const originalAssignees = input.assignees.replace(/\s/g, '').split(',')
-      .filter(assignee => assignee.length != 0) // delete empty accounts
+  const originalAssignees = unique(input.assignees.replace(/\s/g, '').split(',').filter(assignee => assignee.length != 0));
 
   const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
 
   const assignees = originalAssignees
      .filter(assignee => !botAccounts.includes(assignee))
-     .filter(assignee => !assignee.endsWith('[bot]'))
-     .filter((element, index, array) => array.indexOf(element) == index); // delete duplicate accounts
+     .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
 
@@ -1606,14 +1604,11 @@ async function setReviewers(input, event) {
   if (upperDraftKeyword && event.pull_request.title.toUpperCase().includes(upperDraftKeyword)) return;
   if (event.action == 'edited' && !(upperDraftKeyword && event.changes.title && event.changes.title.from.toUpperCase().includes(upperDraftKeyword))) return;
 
-  const originalReviewers = input.reviewers.replace(/\s/g, '').split(',')
-      .filter(reviewer => reviewer.length != 0) // delete empty accounts
+  const originalReviewers = unique(input.reviewers.replace(/\s/g, '').split(',').filter(reviewer => reviewer.length != 0));
 
   const author = event.pull_request.user.login;
 
-  const reviewers = originalReviewers
-      .filter(reviewer => reviewer != author)
-      .filter((element, index, array) => array.indexOf(element) == index); // delete duplicate accounts
+  const reviewers = originalReviewers.filter(reviewer => reviewer != author);
 
   if (reviewers.length == 0) return;
 
