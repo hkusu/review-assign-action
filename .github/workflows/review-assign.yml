@@ -18,8 +18,8 @@ jobs:
         with:
           assignees: ${{ github.actor }}
           bot-accounts: some-bot
-          #reviewers: foo, bar, baz
-          #max-num-of-reviewers: 2
+          reviewers: foo, bar, baz, hamkiti
+          max-num-of-reviewers: 1
           draft-keyword: wip
           ready-comment: 'Ready for review :rocket: `<reviewers>`'
       - name: Show result
