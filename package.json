@@ -18,8 +18,8 @@
     "package": "ncc build src/main.js -o dist"
   },
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "axios": "^0.19.2"
+    "@actions/core": "^1.10.0",
+    "axios": "^1.2.2"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5"
