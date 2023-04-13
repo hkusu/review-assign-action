@@ -1,6 +1,6 @@
-name: 'Review Assign Action'
+name: 'Review Assign Action (alternative)'
 description: 'Automatically set assignees and reviewers in pull request.'
-author: 'Hiroyuki Kusu'
+author: 'Hamkiti'
 branding:
   icon: 'users'
   color: 'white'
