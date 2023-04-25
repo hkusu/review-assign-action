@@ -69,6 +69,12 @@ jobs:
 
 If you want to skip assign on a particular pull request, include `skip assign` or `assign skip` keywords in the pull request title.
 
+You can manage reviewers with [configuration variables](https://docs.github.com/en/actions/learn-github-actions/variables#defining-configuration-variables-for-multiple-workflows):
+
+```yaml
+reviewers: ${{ vars.REVIEWERS }}
+```
+
 To randomly select reviewers:
 
 ```yaml
