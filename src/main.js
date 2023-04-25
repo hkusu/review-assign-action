@@ -1,9 +1,11 @@
 const core = require('@actions/core');
 const run = require('./run');
 
+require('dotenv').config();
+
 const NODE_ENV = process.env['NODE_ENV'];
 
-// If you want to run it locally, set the environment variables like `$ export GITHUB_TOKEN=<your token>`
+// Prepare .env file for local execution
 const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
 
 let input;
@@ -55,7 +57,7 @@ if (NODE_ENV != 'local') {
 }
 
 run(input)
-  .then(result => {
+  .then(() => {
     core.setOutput('result', 'success');
   })
   .catch(error => {

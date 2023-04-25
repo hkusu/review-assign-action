@@ -1,0 +1,19 @@
+name: Main Version Branch
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  main-version-branch:
+    name: Create Main version branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Push HEAD to main version branch
+        run: |
+          branch=$(echo '${{ github.event.release.tag_name }}' | sed -E 's/(v[0-9]+)\..+/\1/')
+          if [[ '${{ github.event.release.tag_name }}' != $branch ]]; then
+            git push --force origin "HEAD:refs/heads/${branch}"
+          fi
