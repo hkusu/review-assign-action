@@ -55,7 +55,7 @@ if (NODE_ENV != 'local') {
 }
 
 run(input)
-  .then(result => {
+  .then(() => {
     core.setOutput('result', 'success');
   })
   .catch(error => {

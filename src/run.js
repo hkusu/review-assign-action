@@ -32,8 +32,8 @@ async function setAssignees(input, event) {
   const botAccounts = input.botAccounts.replace(/\s/g, '').split(',');
 
   const assignees = originalAssignees
-     .filter(assignee => !botAccounts.includes(assignee))
-     .filter(assignee => !assignee.endsWith('[bot]'));
+    .filter(assignee => !botAccounts.includes(assignee))
+    .filter(assignee => !assignee.endsWith('[bot]'));
 
   if (assignees.length == 0) return;
 
