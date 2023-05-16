@@ -106,7 +106,7 @@ jobs:
     steps:
       - uses: hkusu/review-assign-action@v1
         with:
-          ready-comment: 'Ready for review :rocket:' # if there are reviewers, posted when opened or draft is released
+          ready-comment: 'Ready for review :person_gesturing_OK:' # if there are reviewers, posted when opened or draft is released
           merged-comment: 'It was merged. Thanks for your review :wink:' # if reviewed, posted when merged
 ```
 
@@ -116,7 +116,7 @@ jobs:
 
 
 ```yaml
-ready-comment: 'Ready for review :rocket: <reviewers>'
+ready-comment: 'Ready for review :person_gesturing_OK: <reviewers>'
 merged-comment: 'It was merged. Thanks for your review :wink: <reviewers>'
 ```
 
@@ -128,7 +128,7 @@ merged-comment: 'It was merged. Thanks for your review :wink: <reviewers>'
 If you don't want to mention, use inline code with back quotes.
 
 ```yaml
-ready-comment: 'Ready for review :rocket: `<reviewers>`'
+ready-comment: 'Ready for review :person_gesturing_OK: `<reviewers>`'
 merged-comment: 'It was merged. Thanks for your review :wink: `<reviewers>`'
 ```
 
