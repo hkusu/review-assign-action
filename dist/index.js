@@ -6416,7 +6416,7 @@ module.exports = run;
 
 const axios = __nccwpck_require__(8757);
 
-const API_BASE_URL = 'https://api.github.com/repos';
+const API_BASE_URL = process.env.GITHUB_API_URL + '/repos';
 
 async function setAssignees(event, token, assignees) {
   try {

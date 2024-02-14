@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const API_BASE_URL = 'https://api.github.com/repos';
+const API_BASE_URL = process.env.GITHUB_API_URL + '/repos';
 
 async function setAssignees(event, token, assignees) {
   try {
